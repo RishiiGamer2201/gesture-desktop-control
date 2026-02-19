@@ -178,19 +178,6 @@ Say "Jarvis" followed by:
 | THUMBS_DOWN | Open Spotify |
 | ROCK_SIGN | Reserved |
 
----
-
-## 📚 Documentation
-
-- [Complete Setup Guide](COMPLETE_SETUP_GUIDE.md) - Detailed setup instructions
-- [System Architecture](SYSTEM_ARCHITECTURE.md) - How it works
-- [Jarvis Guide](JARVIS_SETUP_GUIDE.md) - Voice assistant details
-- [Gesture Guide](UPDATED_SYSTEM_GUIDE.md) - Gesture system
-- [Quick Start](QUICK_START.md) - 5-minute setup
-- [Why Jarvis?](WHY_JARVIS.md) - Wake word explanation
-
----
-
 ## 🛠️ Technology Stack
 
 ### AI & Machine Learning
@@ -236,8 +223,7 @@ jarvis-gesture-control/
 │
 ├── training_data/               # Training datasets
 ├── screenshots/                 # Saved screenshots
-├── web/                         # Jarvis chat UI
-└── docs/                        # Documentation
+└── web/                         # Jarvis chat UI
 ```
 
 ---
@@ -262,14 +248,6 @@ Contributions are welcome! Here's how:
 4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Open Pull Request
 
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 🙏 Acknowledgments
 
 - MediaPipe by Google for hand tracking
@@ -281,21 +259,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📧 Email: your.email@example.com
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/jarvis-gesture-control/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/jarvis-gesture-control/discussions)
-
----
-
-## 🌟 Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/jarvis-gesture-control&type=Date)](https://star-history.com/#yourusername/jarvis-gesture-control&Date)
-
----
+- 📧 Email: rishiikumarsingh2201@gmail.com
+- 🐛 Issues: [GitHub Issues](https://github.com/RishiiGamer2201/gesture-desktop-control/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/RishiiGamer2201/gesture-desktop-control/discussions)
 
 <div align="center">
 
-**Made with ❤️ by Your Name**
+**Made with ❤️ by Rishii Kumar Singh**
 
 [⬆ Back to Top](#-jarvis--gesture-control-system)
 
