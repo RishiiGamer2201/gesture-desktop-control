@@ -360,7 +360,7 @@ def handle_stop_collection(data):
     
     if len(samples) < 20:
         emit('training_log', {
-            'message': f'❌ Not enough samples! Need at least 20, got {len(samples)}',
+            'message': f' Not enough samples! Need at least 20, got {len(samples)}',
             'type': 'error'
         })
         return
@@ -382,7 +382,7 @@ def handle_stop_collection(data):
     save_custom_gestures(custom_gestures)
     
     emit('training_log', {
-        'message': f'✓ Saved {len(samples)} samples for gesture ID {next_id}',
+        'message': f' Saved {len(samples)} samples for gesture ID {next_id}',
         'type': 'success'
     })
     
@@ -412,13 +412,13 @@ def save_training_data(samples, label):
         np.savetxt(CUSTOM_DATA_FILE, dataset, delimiter=',')
     
     socketio.emit('training_log', {
-        'message': f'✓ Saved training data to {CUSTOM_DATA_FILE}',
+        'message': f' Saved training data to {CUSTOM_DATA_FILE}',
         'type': 'success'
     })
 
 def retrain_model():
     socketio.emit('training_log', {
-        'message': '🔄 Starting model training...',
+        'message': ' Starting model training...',
         'type': 'info'
     })
     
@@ -428,13 +428,13 @@ def retrain_model():
         
         if not csv_files:
             socketio.emit('training_log', {
-                'message': '❌ No training data found!',
+                'message': ' No training data found!',
                 'type': 'error'
             })
             return
         
         socketio.emit('training_log', {
-            'message': f'📂 Loading {len(csv_files)} data file(s)...',
+            'message': f' Loading {len(csv_files)} data file(s)...',
             'type': 'info'
         })
         
@@ -450,7 +450,7 @@ def retrain_model():
         y = combined_data[:, -1]
         
         socketio.emit('training_log', {
-            'message': f'✓ Loaded {len(X)} total samples',
+            'message': f' Loaded {len(X)} total samples',
             'type': 'success'
         })
         
@@ -459,7 +459,7 @@ def retrain_model():
         )
         
         socketio.emit('training_log', {
-            'message': f'📊 Train: {len(X_train)} | Test: {len(X_test)}',
+            'message': f' Train: {len(X_train)} | Test: {len(X_test)}',
             'type': 'info'
         })
         
@@ -467,7 +467,7 @@ def retrain_model():
         model.fit(X_train, y_train)
         
         socketio.emit('training_log', {
-            'message': '🧠 Model trained successfully!',
+            'message': ' Model trained successfully!',
             'type': 'success'
         })
         
@@ -475,7 +475,7 @@ def retrain_model():
         accuracy = accuracy_score(y_test, y_pred) * 100
         
         socketio.emit('training_log', {
-            'message': f'🎯 Accuracy: {accuracy:.2f}%',
+            'message': f' Accuracy: {accuracy:.2f}%',
             'type': 'success'
         })
         
@@ -484,7 +484,7 @@ def retrain_model():
             pickle.dump(model, f)
         
         socketio.emit('training_log', {
-            'message': f'💾 Model saved to {MODEL_PATH}',
+            'message': f' Model saved to {MODEL_PATH}',
             'type': 'success'
         })
         
@@ -495,7 +495,7 @@ def retrain_model():
         
     except Exception as e:
         socketio.emit('training_log', {
-            'message': f'❌ Training error: {str(e)}',
+            'message': f' Training error: {str(e)}',
             'type': 'error'
         })
 

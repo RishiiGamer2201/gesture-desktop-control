@@ -23,7 +23,7 @@ from threading import Thread
 try:
     import main_knn_updated as GestureController
 except ImportError:
-    print("⚠️  Gesture controller not found. Voice-only mode.")
+    print("  Gesture controller not found. Voice-only mode.")
     GestureController = None
 
 # -------------Object Initialization---------------
@@ -73,9 +73,9 @@ try:
         r.energy_threshold = 300  # Adjusted for better recognition
         r.dynamic_energy_threshold = True
         r.pause_threshold = 1.0
-        print(f"✓ Microphone ready (threshold: {r.energy_threshold})")
+        print(f" Microphone ready (threshold: {r.energy_threshold})")
 except Exception as e:
-    print(f"⚠️ Microphone setup warning: {e}")
+    print(f" Microphone setup warning: {e}")
     print("You can still use chat interface!")
 
 
@@ -96,7 +96,7 @@ def record_audio():
             print("Listening timeout")
             return ''
         except sr.RequestError:
-            print('❌ Service down. Check internet.')
+            print(' Service down. Check internet.')
             return ''
         except sr.UnknownValueError:
             print('...')  # Silent, just listening

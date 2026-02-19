@@ -42,7 +42,7 @@ def load_custom_gestures():
         try:
             with open(gesture_file, 'r') as f:
                 custom = json.load(f)
-                print(f"✓ Loaded {len(custom)} custom gesture(s)")
+                print(f" Loaded {len(custom)} custom gesture(s)")
                 return custom
         except:
             pass
@@ -63,7 +63,7 @@ def execute_custom_action(gesture_id, custom_gestures):
     
     try:
         if action_type == 'open_app':
-            print(f"✓ {gesture_name}: Opening {action_value}")
+            print(f" {gesture_name}: Opening {action_value}")
             if os.name == 'nt':  # Windows
                 subprocess.Popen([action_value], shell=True)
             else:  # Mac/Linux
@@ -71,13 +71,13 @@ def execute_custom_action(gesture_id, custom_gestures):
             return True
             
         elif action_type == 'search_web':
-            print(f"✓ {gesture_name}: Searching '{action_value}'")
+            print(f" {gesture_name}: Searching '{action_value}'")
             url = f'https://www.google.com/search?q={action_value}'
             webbrowser.open(url)
             return True
     
     except Exception as e:
-        print(f"❌ Error executing {gesture_name}: {e}")
+        print(f" Error executing {gesture_name}: {e}")
     
     return False
 
@@ -141,12 +141,12 @@ class KNNGestureController:
     
     def load_model(self):
         if not os.path.exists(MODEL_PATH):
-            print(f"❌ Model not found: {MODEL_PATH}")
+            print(f" Model not found: {MODEL_PATH}")
             print("   Run 'python train_knn_updated.py' first!")
             return None
         with open(MODEL_PATH, 'rb') as f:
             model = pickle.load(f)
-        print(f"✓ Loaded KNN model from {MODEL_PATH}")
+        print(f" Loaded KNN model from {MODEL_PATH}")
         return model
     
     def extract_features(self, hand_landmarks):
@@ -187,9 +187,9 @@ class KNNGestureController:
                 subprocess.Popen(['open', '-a', 'Spotify'])
             else:
                 subprocess.Popen(['spotify'])
-            print("🎵 Opening Spotify...")
+            print(" Opening Spotify...")
         except:
-            print("⚠️  Spotify not found")
+            print("  Spotify not found")
     
     def execute_gesture(self, gesture_id, hand_landmarks):
         now = time.time()
@@ -213,7 +213,7 @@ class KNNGestureController:
                 self.prev_hand_x = mid_x
                 self.prev_hand_y = mid_y
                 self.cursor_active = True
-                print("🎯 Cursor initialized to center")
+                print(" Cursor initialized to center")
                 return
             
             if self.prev_hand_x is not None and self.cursor_active:
@@ -237,21 +237,21 @@ class KNNGestureController:
             if now - self.last_click_time > self.click_cooldown:
                 pyautogui.click()
                 self.last_click_time = now
-                print("🖱️ Left Click")
+                print(" Left Click")
         
         # 3. INDEX_ONLY — Right click
         elif gesture_id == 3:
             if now - self.last_click_time > self.click_cooldown:
                 pyautogui.rightClick()
                 self.last_click_time = now
-                print("🖱️ Right Click")
+                print(" Right Click")
         
         # 4. JOINED_FINGERS — Double click
         elif gesture_id == 4:
             if now - self.last_click_time > self.click_cooldown:
                 pyautogui.doubleClick()
                 self.last_click_time = now
-                print("🖱️ Double Click")
+                print(" Double Click")
         
         # 5. PINKY_ONLY — Scroll down / Volume down
         elif gesture_id == 5:
@@ -259,11 +259,11 @@ class KNNGestureController:
                 if self.volume_mode:
                     # Volume down
                     pyautogui.press('volumedown')
-                    print("🔊 Volume Down")
+                    print(" Volume Down")
                 else:
                     # Scroll down
                     pyautogui.scroll(-5)  # Negative = scroll down
-                    print("📜 Scroll Down")
+                    print(" Scroll Down")
                 self.last_action_time = now
         
         # 6. PINKY_THUMB — Scroll up / Volume up
@@ -272,11 +272,11 @@ class KNNGestureController:
                 if self.volume_mode:
                     # Volume up
                     pyautogui.press('volumeup')
-                    print("🔊 Volume Up")
+                    print(" Volume Up")
                 else:
                     # Scroll up
                     pyautogui.scroll(5)  # Positive = scroll up
-                    print("📜 Scroll Up")
+                    print(" Scroll Up")
                 self.last_action_time = now
         
         # 7. THUMBS_UP — Volume mode toggle
@@ -284,11 +284,11 @@ class KNNGestureController:
             if not self.volume_mode and (now - self.last_thumbs_up_time) > 5:
                 self.volume_mode = True
                 self.last_thumbs_up_time = now
-                print("🔊 Volume mode ON")
+                print(" Volume mode ON")
             elif self.volume_mode and (now - self.last_thumbs_up_time) > 5:
                 self.volume_mode = False
                 self.last_thumbs_up_time = now
-                print("🔊 Volume mode OFF")
+                print(" Volume mode OFF")
         
         # 8. THUMBS_DOWN — Open Spotify
         elif gesture_id == 8:
@@ -310,7 +310,7 @@ class KNNGestureController:
                     else:
                         # Unknown custom gesture
                         gesture_name = self.custom_gestures.get(str(gesture_id), {}).get('name', f'Gesture {gesture_id}')
-                        print(f"⚠️ Custom gesture {gesture_id} ({gesture_name}) not configured")
+                        print(f" Custom gesture {gesture_id} ({gesture_name}) not configured")
         
         self.prev_gesture_id = gesture_id
     
@@ -357,29 +357,27 @@ class KNNGestureController:
     
     def run(self):
         if self.model is None:
-            print("❌ Cannot run without model!")
+            print(" Cannot run without model!")
             return
         
         print("=" * 60)
-        print("🎯 KNN GESTURE CONTROL - UPDATED")
+        print(" KNN GESTURE CONTROL - UPDATED")
         print("=" * 60)
-        print("\n✓ Model loaded")
-        print("✓ Camera ready")
-        print("✓ Relative cursor movement")
-        print("\n🆕 NEW GESTURES:")
-        print("  🤙 PINKY_ONLY   → Scroll down / Volume down")
-        print("  🤙👍 PINKY_THUMB  → Scroll up / Volume up")
-        print("\n💡 Gesture Guide:")
-        print("  🖐️  PALM           → Halt cursor")
-        print("  ✌️  V_SIGN         → Move cursor (relative)")
-        print("  🖕  MIDDLE_ONLY    → Left click")
-        print("  ☝️  INDEX_ONLY     → Right click")
-        print("  🤞  JOINED_FINGERS → Double click")
-        print("  👍  THUMBS_UP      → Volume mode toggle")
-        print("  👎  THUMBS_DOWN    → Open Spotify")
-        print("\n❌ REMOVED:")
-        print("  - FIST (drag) - no longer used")
-        print("  - PINCH (scroll) - replaced by pinky gestures")
+        print("\n Model loaded")
+        print(" Camera ready")
+        print(" Relative cursor movement")
+        print("\n NEW GESTURES:")
+        print("   PINKY_ONLY   → Scroll down / Volume down")
+        print("   PINKY_THUMB  → Scroll up / Volume up")
+        print("\n Gesture Guide:")
+        print("    PALM           → Halt cursor")
+        print("    V_SIGN         → Move cursor (relative)")
+        print("    MIDDLE_ONLY    → Left click")
+        print("    INDEX_ONLY     → Right click")
+        print("    JOINED_FINGERS → Double click")
+        print("    THUMBS_UP      → Volume mode toggle")
+        print("    THUMBS_DOWN    → Open Spotify")
+        print("\n REMOVED:")
         print("\nPress 'q' to quit")
         print("=" * 60 + "\n")
         
@@ -417,7 +415,7 @@ class KNNGestureController:
             cv2.imshow("KNN Gesture Control - Updated", frame)
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
-                print("\n👋 Exiting...")
+                print("\n Exiting...")
                 break
         
         self.cap.release()
@@ -427,8 +425,8 @@ if __name__ == "__main__":
     try:
         KNNGestureController().run()
     except KeyboardInterrupt:
-        print("\n⚠️  Interrupted by user")
+        print("\n  Interrupted by user")
     except Exception as e:
-        print(f"\n❌ ERROR: {e}")
+        print(f"\n ERROR: {e}")
         import traceback
         traceback.print_exc()

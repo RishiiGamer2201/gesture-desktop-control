@@ -120,7 +120,7 @@ class GestureDataCollector:
     def save_data(self):
         """Save collected data to CSV"""
         if len(self.data) == 0:
-            print("⚠️  No data to save!")
+            print("  No data to save!")
             return False
         
         # Combine features and labels
@@ -153,17 +153,17 @@ class GestureDataCollector:
         print("=" * 60)
         print("GESTURE DATA COLLECTOR - NEW GESTURE SET")
         print("=" * 60)
-        print("\n📋 Gestures to collect:")
+        print("\n Gestures to collect:")
         for key, name in GESTURES.items():
             print(f"  Press '{key}' for {name}")
-        print("\n💡 Recommendation: 50-100 samples per gesture")
-        print("\n⌨️  Controls:")
+        print("\n Recommendation: 50-100 samples per gesture")
+        print("\n  Controls:")
         print("  's' - Save data")
         print("  'q' - Quit")
-        print("\n🆕 NEW GESTURES:")
+        print("\n NEW GESTURES:")
         print("  5: PINKY_ONLY   - Only pinky finger up (scroll/volume down)")
         print("  6: PINKY_THUMB  - Pinky + thumb up (scroll/volume up)")
-        print("\n❌ REMOVED GESTURES:")
+        print("\n REMOVED GESTURES:")
         print("  - FIST (no longer used)")
         print("  - PINCH (replaced by pinky gestures)")
         print("\n" + "=" * 60 + "\n")
@@ -216,7 +216,7 @@ class GestureDataCollector:
                     last_captured = GESTURES[label]
                     last_capture_time = cv2.getTickCount()
                     
-                    print(f"✓ Captured {GESTURES[label]}: {self.counter[label]} samples")
+                    print(f" Captured {GESTURES[label]}: {self.counter[label]} samples")
                 
                 # Save data
                 elif key == ord('s'):
@@ -225,7 +225,7 @@ class GestureDataCollector:
                 
                 # Quit
                 elif key == ord('q'):
-                    print("\n⚠️  Quitting without saving!")
+                    print("\n  Quitting without saving!")
                     break
             
             # Clear "last captured" message after 1 second
@@ -245,7 +245,7 @@ class GestureDataCollector:
         
         # Final summary
         if len(self.data) > 0:
-            print(f"\n📊 Collection Summary:")
+            print(f"\n Collection Summary:")
             print(f"Total samples: {len(self.data)}")
             for i, name in GESTURES.items():
                 status = "✓" if self.counter[i] >= 50 else "⚠" if self.counter[i] >= 20 else "❌"
@@ -256,8 +256,8 @@ if __name__ == "__main__":
         collector = GestureDataCollector()
         collector.run()
     except KeyboardInterrupt:
-        print("\n\n⚠️  Collection interrupted by user")
+        print("\n\n  Collection interrupted by user")
     except Exception as e:
-        print(f"\n❌ ERROR: {e}")
+        print(f"\n ERROR: {e}")
         import traceback
         traceback.print_exc()

@@ -49,7 +49,7 @@ class GestureModelTrainer:
         csv_files = glob.glob(os.path.join(DATA_DIR, "*.csv"))
         
         if not csv_files:
-            print(f"❌ No CSV files found in {DATA_DIR}/")
+            print(f" No CSV files found in {DATA_DIR}/")
             return False
         
         print(f"\nFound {len(csv_files)} data file(s):")
@@ -61,17 +61,17 @@ class GestureModelTrainer:
         for csv_file in csv_files:
             data = np.loadtxt(csv_file, delimiter=',')
             all_data.append(data)
-            print(f"  ✓ Loaded {len(data)} samples from {os.path.basename(csv_file)}")
+            print(f"   Loaded {len(data)} samples from {os.path.basename(csv_file)}")
         
         combined_data = np.vstack(all_data)
         
         X = combined_data[:, :-1]
         y = combined_data[:, -1]
         
-        print(f"\n📊 Total samples loaded: {len(X)}")
+        print(f"\n Total samples loaded: {len(X)}")
         print(f"   Features per sample: {X.shape[1]}")
         
-        print("\n📈 Samples per gesture:")
+        print("\n Samples per gesture:")
         for label in range(10):
             count = np.sum(y == label)
             if count > 0:
@@ -89,8 +89,8 @@ class GestureModelTrainer:
             X, y, test_size=test_size, random_state=random_state, stratify=y
         )
         
-        print(f"\n✓ Training set: {len(self.X_train)} samples")
-        print(f"✓ Test set:     {len(self.X_test)} samples")
+        print(f"\n Training set: {len(self.X_train)} samples")
+        print(f" Test set:     {len(self.X_test)} samples")
         
         return True
     
@@ -103,7 +103,7 @@ class GestureModelTrainer:
         self.model = KNeighborsClassifier(n_neighbors=self.n_neighbors)
         self.model.fit(self.X_train, self.y_train)
         
-        print("\n✓ Model trained successfully!")
+        print("\n Model trained successfully!")
         
         return True
     
@@ -116,9 +116,9 @@ class GestureModelTrainer:
         y_pred = self.model.predict(self.X_test)
         accuracy = accuracy_score(self.y_test, y_pred)
         
-        print(f"\n🎯 Test Accuracy: {accuracy * 100:.2f}%")
+        print(f"\n Test Accuracy: {accuracy * 100:.2f}%")
         
-        print("\n📊 Per-Gesture Accuracy:")
+        print("\n Per-Gesture Accuracy:")
         for label in range(10):
             mask = self.y_test == label
             if np.sum(mask) > 0:
@@ -163,7 +163,7 @@ class GestureModelTrainer:
         with open(filepath, 'wb') as f:
             pickle.dump(self.model, f)
         
-        print(f"\n💾 Model saved: {filepath}")
+        print(f"\n Model saved: {filepath}")
         return filepath
     
     def run_training_pipeline(self):
@@ -187,15 +187,15 @@ class GestureModelTrainer:
         print("\n" + "=" * 60)
         print("TRAINING COMPLETE!")
         print("=" * 60)
-        print(f"\n✓ Final Accuracy: {accuracy * 100:.2f}%")
-        print(f"✓ Model saved in: {MODEL_DIR}/")
-        print("\n🆕 NEW GESTURES:")
+        print(f"\n Final Accuracy: {accuracy * 100:.2f}%")
+        print(f" Model saved in: {MODEL_DIR}/")
+        print("\n NEW GESTURES:")
         print("   5: PINKY_ONLY   - Scroll/Volume down")
         print("   6: PINKY_THUMB  - Scroll/Volume up")
-        print("\n❌ REMOVED:")
+        print("\n REMOVED:")
         print("   - FIST (drag)")
         print("   - PINCH (scroll)")
-        print("\n📝 Next: Run 'python main_knn_updated.py'")
+        print("\n Next: Run 'python main_knn_updated.py'")
         print("=" * 60 + "\n")
         
         return True
@@ -206,10 +206,10 @@ def main():
     try:
         trainer.run_training_pipeline()
     except FileNotFoundError:
-        print("\n❌ Error: No training data found!")
+        print("\n Error: No training data found!")
         print("Please run 'python collect_data_updated.py' first to collect data.")
     except Exception as e:
-        print(f"\n❌ Error during training: {e}")
+        print(f"\n Error during training: {e}")
         import traceback
         traceback.print_exc()
 
