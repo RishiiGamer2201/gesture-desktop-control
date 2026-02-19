@@ -1,0 +1,413 @@
+{% extends "base.html" %}
+
+{% block title %}Add Custom Gesture{% endblock %}
+
+{% block extra_css %}
+<style>
+    #videoFeed {
+        width: 100%;
+        max-width: 640px;
+        border-radius: 10px;
+        border: 3px solid #667eea;
+    }
+    
+    .log-container {
+        height: 300px;
+        overflow-y: auto;
+        background: #1e1e1e;
+        color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+    }
+    
+    .log-entry {
+        margin-bottom: 8px;
+        padding: 5px;
+        border-left: 3px solid transparent;
+    }
+    
+    .log-success {
+        color: #28a745;
+        border-left-color: #28a745;
+    }
+    
+    .log-error {
+        color: #dc3545;
+        border-left-color: #dc3545;
+    }
+    
+    .log-info {
+        color: #17a2b8;
+        border-left-color: #17a2b8;
+    }
+    
+    .sample-counter {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+    
+    .pulse {
+        animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center py-4">
+                <h1><i class="bi bi-plus-circle-fill"></i> Add Custom Gesture</h1>
+                <p class="lead mb-0">Train the AI to recognize your own hand gestures</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Instructions -->
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <div class="alert alert-info">
+            <h5><i class="bi bi-info-circle-fill"></i> How It Works</h5>
+            <ol class="mb-0">
+                <li><strong>Show your gesture</strong> to the camera</li>
+                <li><strong>Click "Capture Samples"</strong> - hold the gesture steady</li>
+                <li><strong>Collect 50-100 samples</strong> (the more, the better!)</li>
+                <li><strong>Name your gesture</strong> and assign an action</li>
+                <li><strong>Train the model</strong> - AI learns your gesture automatically!</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="row">
+    <!-- Left Column: Camera Feed -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-camera-video"></i> Camera Feed</h5>
+            </div>
+            <div class="card-body text-center">
+                <img id="videoFeed" src="/video_feed" alt="Camera Feed" style="display: none;">
+                <div id="cameraPlaceholder" class="py-5">
+                    <i class="bi bi-camera-video-off display-1 text-muted"></i>
+                    <p class="text-muted">Click "Start Camera" to begin</p>
+                </div>
+                
+                <div class="mt-3">
+                    <button id="startCameraBtn" class="btn btn-success btn-lg">
+                        <i class="bi bi-camera-fill"></i> Start Camera
+                    </button>
+                    <button id="stopCameraBtn" class="btn btn-danger btn-lg" style="display: none;">
+                        <i class="bi bi-camera-video-off-fill"></i> Stop Camera
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sample Collection -->
+        <div class="card mt-3">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="bi bi-collection"></i> Sample Collection</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <div class="sample-counter text-primary" id="sampleCount">0</div>
+                    <p class="text-muted">Samples Collected</p>
+                    <div class="progress" style="height: 25px;">
+                        <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%">0%</div>
+                    </div>
+                    <small class="text-muted">Target: 50-100 samples</small>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button id="startCollectionBtn" class="btn btn-primary btn-lg" disabled>
+                        <i class="bi bi-play-circle-fill"></i> Start Collection
+                    </button>
+                    <button id="captureBtn" class="btn btn-success btn-lg" style="display: none;">
+                        <i class="bi bi-hand-thumbs-up-fill pulse"></i> Hold Gesture (Capturing...)
+                    </button>
+                    <button id="stopCollectionBtn" class="btn btn-warning btn-lg" style="display: none;">
+                        <i class="bi bi-stop-circle-fill"></i> Done Collecting
+                    </button>
+                </div>
+                
+                <div class="alert alert-success mt-3" id="collectionStatus" style="display: none;">
+                    <i class="bi bi-check-circle"></i> <strong>Ready!</strong> Enter gesture details below.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Column: Configuration & Training -->
+    <div class="col-lg-6 mb-4">
+        <!-- Gesture Configuration -->
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-sliders"></i> Gesture Configuration</h5>
+            </div>
+            <div class="card-body">
+                <form id="gestureForm">
+                    <div class="mb-3">
+                        <label for="gestureName" class="form-label">Gesture Name *</label>
+                        <input type="text" class="form-control" id="gestureName" placeholder="e.g., Peace Sign, OK Sign" required>
+                        <small class="text-muted">Give your gesture a recognizable name</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="actionType" class="form-label">Action Type *</label>
+                        <select class="form-select" id="actionType" required>
+                            <option value="">Select an action...</option>
+                            <option value="open_app">Open Application</option>
+                            <option value="search_web">Search Web</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3" id="appPathGroup" style="display: none;">
+                        <label for="appPath" class="form-label">Application Path *</label>
+                        <input type="text" class="form-control" id="appPath" placeholder="e.g., msedge, notepad, chrome">
+                        <small class="text-muted">
+                            Windows: msedge, notepad, calc<br>
+                            Mac: Safari, Notes, Calculator<br>
+                            Or full path: C:\Program Files\...
+                        </small>
+                    </div>
+                    
+                    <div class="mb-3" id="searchQueryGroup" style="display: none;">
+                        <label for="searchQuery" class="form-label">Search Query *</label>
+                        <input type="text" class="form-control" id="searchQuery" placeholder="e.g., youtube, python tutorials">
+                        <small class="text-muted">What to search on Google</small>
+                    </div>
+                    
+                    <button type="submit" id="trainBtn" class="btn btn-success btn-lg w-100" disabled>
+                        <i class="bi bi-cpu-fill"></i> Train Model
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Training Logs -->
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="bi bi-terminal-fill"></i> Training Logs</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="log-container" id="trainingLogs">
+                    <div class="log-entry log-info">
+                        <i class="bi bi-info-circle"></i> Waiting to start...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title"><i class="bi bi-check-circle-fill"></i> Success!</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="bi bi-trophy-fill display-1 text-success mb-3"></i>
+                <h4>Gesture Created Successfully!</h4>
+                <p>Your custom gesture has been trained and is ready to use.</p>
+                <div id="successDetails" class="mt-3"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="/gestures" class="btn btn-primary">View All Gestures</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="location.reload()">Add Another</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const socket = io();
+
+let samplesCollected = 0;
+let isCollecting = false;
+let collectionInterval = null;
+
+// Action type selector
+document.getElementById('actionType').addEventListener('change', function() {
+    const appPathGroup = document.getElementById('appPathGroup');
+    const searchQueryGroup = document.getElementById('searchQueryGroup');
+    
+    if (this.value === 'open_app') {
+        appPathGroup.style.display = 'block';
+        searchQueryGroup.style.display = 'none';
+        document.getElementById('appPath').required = true;
+        document.getElementById('searchQuery').required = false;
+    } else if (this.value === 'search_web') {
+        appPathGroup.style.display = 'none';
+        searchQueryGroup.style.display = 'block';
+        document.getElementById('appPath').required = false;
+        document.getElementById('searchQuery').required = true;
+    } else {
+        appPathGroup.style.display = 'none';
+        searchQueryGroup.style.display = 'none';
+    }
+});
+
+// Camera controls
+document.getElementById('startCameraBtn').addEventListener('click', function() {
+    socket.emit('start_camera');
+    document.getElementById('videoFeed').style.display = 'block';
+    document.getElementById('cameraPlaceholder').style.display = 'none';
+    this.style.display = 'none';
+    document.getElementById('stopCameraBtn').style.display = 'inline-block';
+    document.getElementById('startCollectionBtn').disabled = false;
+    addLog('info', 'Camera started successfully');
+});
+
+document.getElementById('stopCameraBtn').addEventListener('click', function() {
+    socket.emit('stop_camera');
+    document.getElementById('videoFeed').style.display = 'none';
+    document.getElementById('cameraPlaceholder').style.display = 'block';
+    this.style.display = 'none';
+    document.getElementById('startCameraBtn').style.display = 'inline-block';
+    document.getElementById('startCollectionBtn').disabled = true;
+    addLog('info', 'Camera stopped');
+});
+
+// Collection controls
+document.getElementById('startCollectionBtn').addEventListener('click', function() {
+    socket.emit('start_collection');
+    isCollecting = true;
+    samplesCollected = 0;
+    
+    this.style.display = 'none';
+    document.getElementById('captureBtn').style.display = 'block';
+    document.getElementById('stopCollectionBtn').style.display = 'block';
+    
+    // Auto-capture samples every 100ms
+    collectionInterval = setInterval(() => {
+        if (isCollecting) {
+            socket.emit('capture_sample');
+        }
+    }, 100);
+    
+    addLog('success', 'Collection started! Hold your gesture steady...');
+});
+
+document.getElementById('stopCollectionBtn').addEventListener('click', function() {
+    stopCollection();
+});
+
+function stopCollection() {
+    isCollecting = false;
+    clearInterval(collectionInterval);
+    
+    document.getElementById('startCollectionBtn').style.display = 'block';
+    document.getElementById('captureBtn').style.display = 'none';
+    document.getElementById('stopCollectionBtn').style.display = 'none';
+    
+    if (samplesCollected >= 20) {
+        document.getElementById('collectionStatus').style.display = 'block';
+        document.getElementById('trainBtn').disabled = false;
+        addLog('success', `✅ Collected ${samplesCollected} samples! Ready to train.`);
+    } else {
+        addLog('error', `❌ Need at least 20 samples. You have ${samplesCollected}.`);
+    }
+}
+
+// Form submission
+document.getElementById('gestureForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('gestureName').value;
+    const actionType = document.getElementById('actionType').value;
+    let actionValue = '';
+    
+    if (actionType === 'open_app') {
+        actionValue = document.getElementById('appPath').value;
+    } else if (actionType === 'search_web') {
+        actionValue = document.getElementById('searchQuery').value;
+    }
+    
+    if (!name || !actionType || !actionValue) {
+        alert('Please fill in all fields!');
+        return;
+    }
+    
+    addLog('info', '🔄 Starting training process...');
+    document.getElementById('trainBtn').disabled = true;
+    document.getElementById('trainBtn').innerHTML = '<span class="spinner-border spinner-border-sm"></span> Training...';
+    
+    socket.emit('stop_collection', {
+        name: name,
+        action_type: actionType,
+        action_value: actionValue
+    });
+});
+
+// Socket events
+socket.on('collection_status', function(data) {
+    samplesCollected = data.samples;
+    document.getElementById('sampleCount').textContent = samplesCollected;
+    
+    const percentage = Math.min((samplesCollected / 100) * 100, 100);
+    const progressBar = document.getElementById('progressBar');
+    progressBar.style.width = percentage + '%';
+    progressBar.textContent = Math.round(percentage) + '%';
+    
+    if (samplesCollected >= 50) {
+        progressBar.classList.remove('bg-warning');
+        progressBar.classList.add('bg-success');
+    } else if (samplesCollected >= 20) {
+        progressBar.classList.remove('bg-danger');
+        progressBar.classList.add('bg-warning');
+    }
+});
+
+socket.on('training_log', function(data) {
+    addLog(data.type, data.message);
+});
+
+socket.on('training_complete', function(data) {
+    addLog('success', `🎉 Training complete! Accuracy: ${data.accuracy.toFixed(2)}%`);
+    
+    document.getElementById('successDetails').innerHTML = `
+        <p><strong>Accuracy:</strong> ${data.accuracy.toFixed(2)}%</p>
+        <p><strong>Total Samples:</strong> ${data.total_samples}</p>
+    `;
+    
+    const modal = new bootstrap.Modal(document.getElementById('successModal'));
+    modal.show();
+});
+
+socket.on('collection_complete', function(data) {
+    addLog('success', `✅ Gesture "${data.gesture_name}" saved with ID ${data.gesture_id}`);
+});
+
+function addLog(type, message) {
+    const logContainer = document.getElementById('trainingLogs');
+    const timestamp = new Date().toLocaleTimeString();
+    const entry = document.createElement('div');
+    entry.className = `log-entry log-${type}`;
+    
+    let icon = 'info-circle';
+    if (type === 'success') icon = 'check-circle';
+    if (type === 'error') icon = 'x-circle';
+    
+    entry.innerHTML = `<i class="bi bi-${icon}"></i> [${timestamp}] ${message}`;
+    logContainer.appendChild(entry);
+    logContainer.scrollTop = logContainer.scrollHeight;
+}
+</script>
+{% endblock %}

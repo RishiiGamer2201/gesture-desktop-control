@@ -1,0 +1,108 @@
+<!-- Add this section to jarvis.html after the header -->
+<!-- Jarvis Control Panel -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="bi bi-play-circle-fill"></i> Jarvis Control Panel</h4>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h5>Status: <span id="jarvisStatus" class="badge bg-secondary">Checking...</span></h5>
+                        <p class="text-muted mb-0">Control Jarvis voice assistant from here</p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <button id="startJarvisBtn" class="btn btn-success btn-lg me-2" onclick="startJarvis()">
+                            <i class="bi bi-play-fill"></i> Start Jarvis
+                        </button>
+                        <button id="stopJarvisBtn" class="btn btn-danger btn-lg" onclick="stopJarvis()" disabled>
+                            <i class="bi bi-stop-fill"></i> Stop Jarvis
+                        </button>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-3" id="jarvisMessage" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Check Jarvis status on load
+window.addEventListener('DOMContentLoaded', function() {
+    checkJarvisStatus();
+    // Check status every 5 seconds
+    setInterval(checkJarvisStatus, 5000);
+});
+
+function checkJarvisStatus() {
+    fetch('/api/jarvis/status')
+        .then(res => res.json())
+        .then(data => {
+            const statusBadge = document.getElementById('jarvisStatus');
+            const startBtn = document.getElementById('startJarvisBtn');
+            const stopBtn = document.getElementById('stopJarvisBtn');
+            
+            if (data.running) {
+                statusBadge.textContent = 'Running';
+                statusBadge.className = 'badge bg-success';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            } else {
+                statusBadge.textContent = 'Stopped';
+                statusBadge.className = 'badge bg-secondary';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        })
+        .catch(err => console.error('Status check failed:', err));
+}
+
+function startJarvis() {
+    const messageDiv = document.getElementById('jarvisMessage');
+    messageDiv.style.display = 'block';
+    messageDiv.className = 'alert alert-info mt-3';
+    messageDiv.textContent = 'Starting Jarvis...';
+    
+    fetch('/api/jarvis/start', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                messageDiv.className = 'alert alert-success mt-3';
+                messageDiv.textContent = '✅ ' + data.message + ' - A new window should open!';
+                checkJarvisStatus();
+            } else {
+                messageDiv.className = 'alert alert-danger mt-3';
+                messageDiv.textContent = '❌ ' + data.message;
+            }
+        })
+        .catch(err => {
+            messageDiv.className = 'alert alert-danger mt-3';
+            messageDiv.textContent = '❌ Error: ' + err.message;
+        });
+}
+
+function stopJarvis() {
+    const messageDiv = document.getElementById('jarvisMessage');
+    messageDiv.style.display = 'block';
+    messageDiv.className = 'alert alert-info mt-3';
+    messageDiv.textContent = 'Stopping Jarvis...';
+    
+    fetch('/api/jarvis/stop', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                messageDiv.className = 'alert alert-success mt-3';
+                messageDiv.textContent = '✅ ' + data.message;
+                checkJarvisStatus();
+            } else {
+                messageDiv.className = 'alert alert-danger mt-3';
+                messageDiv.textContent = '❌ ' + data.message;
+            }
+        })
+        .catch(err => {
+            messageDiv.className = 'alert alert-danger mt-3';
+            messageDiv.textContent = '❌ Error: ' + err.message;
+        });
+}
+</script>

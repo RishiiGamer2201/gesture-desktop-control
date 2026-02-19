@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Jarvis + Gesture Control{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="row mb-5">
+    <div class="col-lg-12">
+        <div class="card bg-gradient text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="card-body text-center py-5">
+                <h1 class="display-3 mb-3"><i class="bi bi-robot"></i> Jarvis + Gesture Control</h1>
+                <p class="lead">AI-Powered Voice Assistant with Custom Hand Gesture Recognition</p>
+                <div class="mt-4">
+                    <a href="/jarvis" class="btn btn-light btn-lg me-2">
+                        <i class="bi bi-mic"></i> Explore Jarvis
+                    </a>
+                    <a href="/add-gesture" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-plus-circle"></i> Add Custom Gesture
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+        <h2>🚀 Project Features</h2>
+        <p class="text-muted">Complete AI-powered desktop control system</p>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="feature-icon">
+                    <i class="bi bi-mic-fill"></i>
+                </div>
+                <h5 class="card-title">Voice Assistant - Jarvis</h5>
+                <p class="card-text">Control your computer with natural voice commands. Search the web, play music, get information, and more!</p>
+                <a href="/jarvis" class="btn btn-primary btn-sm">Learn More</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="feature-icon">
+                    <i class="bi bi-hand-index-thumb"></i>
+                </div>
+                <h5 class="card-title">Hand Gesture Control</h5>
+                <p class="card-text">Control mouse, keyboard, and applications using hand gestures. 10 built-in gestures for complete control!</p>
+                <a href="/gestures" class="btn btn-primary btn-sm">View Gestures</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="feature-icon">
+                    <i class="bi bi-plus-circle-fill"></i>
+                </div>
+                <h5 class="card-title">Custom Gestures</h5>
+                <p class="card-text">Create your own gestures! Train the AI to recognize any hand gesture and assign custom actions.</p>
+                <a href="/add-gesture" class="btn btn-primary btn-sm">Add Gesture</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works -->
+<div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+        <h2>⚙️ How It Works</h2>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="display-1 text-primary mb-3">1</div>
+                <h5>Voice Control</h5>
+                <p class="small">Say "Jarvis" followed by your command to control your computer with voice</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="display-1 text-primary mb-3">2</div>
+                <h5>Hand Tracking</h5>
+                <p class="small">MediaPipe detects your hand and tracks 21 landmarks in real-time</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="display-1 text-primary mb-3">3</div>
+                <h5>AI Recognition</h5>
+                <p class="small">KNN model recognizes gestures with 99%+ accuracy</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="display-1 text-primary mb-3">4</div>
+                <h5>Execute Action</h5>
+                <p class="small">System performs the action: move cursor, click, scroll, or custom action</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Technology Stack -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center mb-4">🛠️ Technology Stack</h3>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <h5><i class="bi bi-robot"></i> AI & Machine Learning</h5>
+                        <ul>
+                            <li>MediaPipe (Hand tracking)</li>
+                            <li>Scikit-learn (KNN classifier)</li>
+                            <li>OpenCV (Computer vision)</li>
+                            <li>TensorFlow (Backend)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h5><i class="bi bi-code-square"></i> Backend</h5>
+                        <ul>
+                            <li>Python 3.11</li>
+                            <li>Flask (Web framework)</li>
+                            <li>Flask-SocketIO (Real-time)</li>
+                            <li>PyAutoGUI (System control)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h5><i class="bi bi-palette"></i> Frontend</h5>
+                        <ul>
+                            <li>Bootstrap 5</li>
+                            <li>JavaScript (ES6+)</li>
+                            <li>Socket.IO (WebSockets)</li>
+                            <li>HTML5/CSS3</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="row mb-5">
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="text-primary">99%+</h2>
+                <p class="mb-0">Model Accuracy</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="text-primary">10+</h2>
+                <p class="mb-0">Built-in Gestures</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="text-primary">30</h2>
+                <p class="mb-0">FPS Performance</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="text-primary">∞</h2>
+                <p class="mb-0">Custom Gestures</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Start -->
+<div class="row mb-5">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-play-circle"></i> Quick Start Guide</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>🎤 Using Jarvis (Voice)</h5>
+                        <ol>
+                            <li>Run: <code>python jarvis.py</code></li>
+                            <li>Say: <strong>"Jarvis hello"</strong></li>
+                            <li>Give commands like:
+                                <ul>
+                                    <li>"Jarvis search Python"</li>
+                                    <li>"Jarvis what's the time"</li>
+                                    <li>"Jarvis launch gesture"</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>✋ Using Gestures</h5>
+                        <ol>
+                            <li>Say: <strong>"Jarvis launch gesture"</strong></li>
+                            <li>Camera opens and detects your hand</li>
+                            <li>Use gestures:
+                                <ul>
+                                    <li>V sign → Move cursor</li>
+                                    <li>Middle finger → Left click</li>
+                                    <li>Pinky → Scroll</li>
+                                </ul>
+                            </li>
+                            <li>Say: <strong>"Jarvis stop gesture"</strong> to stop</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="/jarvis" class="btn btn-primary me-2">View All Commands</a>
+                    <a href="/gestures" class="btn btn-outline-primary">View All Gestures</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project Info -->
+<div class="row mb-5">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-3">📖 About This Project</h3>
+                <p>This project combines <strong>voice recognition</strong> and <strong>computer vision</strong> to create a hands-free computer control system. It features:</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5><i class="bi bi-check-circle-fill text-success"></i> Voice Assistant Features</h5>
+                        <ul>
+                            <li>Web search (Google, YouTube, Wikipedia)</li>
+                            <li>System controls (volume, screenshots)</li>
+                            <li>File navigation</li>
+                            <li>Application launching</li>
+                            <li>Time and date queries</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="bi bi-check-circle-fill text-success"></i> Gesture Control Features</h5>
+                        <ul>
+                            <li>Relative cursor movement</li>
+                            <li>Click operations (left, right, double)</li>
+                            <li>Scrolling (vertical & horizontal)</li>
+                            <li>Volume control</li>
+                            <li>Custom gesture creation</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-4">
+                    <i class="bi bi-info-circle"></i> <strong>Pro Tip:</strong> You can create unlimited custom gestures! 
+                    Go to <a href="/add-gesture" class="alert-link">Add Gesture</a> to train the AI to recognize your own hand gestures 
+                    and assign them to open apps or search the web.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
