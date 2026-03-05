@@ -9,7 +9,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Mac%20%7C%20Linux-lightgrey.svg)]()
 [![YouTube](https://img.shields.io/badge/Demo-YouTube-red.svg)](https://youtu.be/thcPBI7ImGQ?si=RQ7ZOjHlkimnE7eQ)
 
-[Features](#-features) • [Installation](#-installation) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Demo](#-demo) • [Contributing](#-contributing)
+[Features](#-features) • [Installation](#-installation) • [Quick Start](#-quick-start) • [Demo](#-demo) • [Contributing](#-contributing)
 
 </div>
 
