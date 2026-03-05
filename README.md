@@ -210,18 +210,6 @@ Say "Jarvis" followed by:
 | THUMBS_DOWN | Open Spotify |
 | ROCK_SIGN | Reserved |
 
----
-
-## 📚 Documentation
-
-- [Complete Setup Guide](COMPLETE_SETUP_GUIDE.md) - Detailed setup instructions
-- [System Architecture](SYSTEM_ARCHITECTURE.md) - How it works
-- [Jarvis Guide](JARVIS_SETUP_GUIDE.md) - Voice assistant details
-- [Gesture Guide](UPDATED_SYSTEM_GUIDE.md) - Gesture system
-- [Quick Start](QUICK_START.md) - 5-minute setup
-- [Why Jarvis?](WHY_JARVIS.md) - Wake word explanation
-
----
 
 ## 🛠️ Technology Stack
 
