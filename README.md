@@ -292,7 +292,7 @@ Contributions are welcome! Here's how:
 
 ## 📞 Support
 
-- 📧 Email: your.email@example.com
+- 📧 Email: rishiikumarsingh2201@gmail.com
 - 🐛 Issues: [GitHub Issues](https://github.com/RishiiGamer2201/gesture-desktop-control/issues)
 
 
