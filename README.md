@@ -246,18 +246,16 @@ jarvis-gesture-control/
 ├── requirements_jarvis.txt      # Dependencies
 │
 ├── webapp/                      # Web application
-│   ├── app.py                   # Flask server
+│   ├── models/                      # Trained models
+│       └── gesture_knn_model_updated.pkl
 │   ├── templates/               # HTML pages
+│   ├── training_data/               # Training datasets
+│   ├── app.py                   # Flask server
 │   ├── requirements.txt         # Web dependencies
 │   └── custom_gestures.json     # User gestures
 │
-├── models/                      # Trained models
-│   └── gesture_knn_model_updated.pkl
-│
-├── training_data/               # Training datasets
 ├── screenshots/                 # Saved screenshots
-├── web/                         # Jarvis chat UI
-└── docs/                        # Documentation
+└── web/                         # Jarvis chat UI
 ```
 
 ---
